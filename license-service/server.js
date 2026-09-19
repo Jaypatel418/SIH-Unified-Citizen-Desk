@@ -3,8 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const app = express(); app.use(cors()); app.use(express.json());
-const PORT=3001, MONGODB_URI=process.env.MONGODB_URI||'mongodb://127.0.0.1:27017/ucd_sih26129';
-const SSO_SECRET=process.env.SSO_SECRET||'ucd-sih26129-dev-sso-secret';
+const PORT=process.env.PORT||3001, MONGODB_URI=process.env.MONGODB_URI||'mongodb://127.0.0.1:27017/ucd_sih26129';const SSO_SECRET=process.env.SSO_SECRET||'ucd-sih26129-dev-sso-secret';
 function requireSsoToken(req,res,next){const auth=req.headers.authorization||'',token=auth.startsWith('Bearer ')?auth.slice(7):'';if(!token)return res.status(401).json({error:'SSO token required'});try{req.identity=jwt.verify(token,SSO_SECRET);next()}catch{return res.status(401).json({error:'Invalid or expired SSO token'})}}
 const STAGES=['Submitted','Under Review','Verification','Decision'];
 const Application=mongoose.model('LicenseApplication',new mongoose.Schema({applicationId:{type:String,unique:true},citizenId:String,ownerName:String,currentStage:Number,applicationType:String,estCompletion:String,documentUrl:String,remarks:String,createdAt:Date,updatedAt:Date},{collection:'license_applications'}));
