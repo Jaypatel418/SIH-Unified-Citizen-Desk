@@ -1,0 +1,14 @@
+{
+  "name": "license-service",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.22.2",
+    "mongoose": "^8.7.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

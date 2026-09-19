@@ -1,0 +1,13 @@
+{
+  "name": "sih26129-unified-citizen-desk",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix license-service && npm install --prefix land-service && npm install --prefix tax-service && npm install --prefix gateway-service && npm install --prefix citizen-dashboard",
+    "start": "npm run dev",
+    "dev": "concurrently -k -n LICENSE,LAND,TAX,GATEWAY,WEB -c yellow,green,cyan,magenta,blue \"npm start --prefix license-service\" \"npm start --prefix land-service\" \"npm start --prefix tax-service\" \"npm start --prefix gateway-service\" \"npm run dev --prefix citizen-dashboard\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
