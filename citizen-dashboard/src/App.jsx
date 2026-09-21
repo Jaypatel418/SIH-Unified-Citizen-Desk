@@ -110,7 +110,7 @@ function ServiceRow({ data }) {
       <Timeline data={data} />
       {(data.documentUrl || data.remarks) && (
         <div className="dept-extra">
-          {data.documentUrl && <a className="doc-link" href={`${GATEWAY_ORIGIN}${data.documentUrl}`} target="_blank" rel="noreferrer">View uploaded document</a>}
+          {data.documentUrl && <a className="doc-link" href={data.documentUrl.startsWith('http') ? data.documentUrl : `${GATEWAY_ORIGIN}${data.documentUrl}`} target="_blank" rel="noreferrer">View uploaded document</a>}
           {data.remarks && <p className="dept-remarks">{data.remarks}</p>}
         </div>
       )}
@@ -283,7 +283,7 @@ function OfficerView({ token, onLog }) {
       <div className="panel wide-panel">
         <div className="panel-heading"><h3>All citizen applications</h3><select className="small-select" value={filter} onChange={e => setFilter(e.target.value)}><option value="all">All departments</option><option value="license">License</option><option value="landRecords">Land Records</option><option value="tax">Tax & Revenue</option></select></div>
         <div className="table-wrap"><table><thead><tr><th>Application</th><th>Citizen</th><th>Department</th><th>Stage</th><th>Document</th><th>Action</th></tr></thead><tbody>
-          {filtered.map(app => <tr key={`${app.department}-${app.applicationId}`}><td><strong title={app.remarks || ''}>{app.applicationId}</strong><small>{app.ownerName}</small></td><td>{app.citizenId}</td><td>{app.department === 'landRecords' ? 'Land Records' : app.department === 'license' ? 'License' : 'Tax & Revenue'}</td><td><span className="stage-pill">{app.stages[app.currentStage] || 'Pending'}</span></td><td>{app.documentUrl ? <a className="doc-link" href={`${GATEWAY_ORIGIN}${app.documentUrl}`} target="_blank" rel="noreferrer">View</a> : <span className="hint">None</span>}</td><td><select className="small-select" value={app.currentStage} onChange={e => updateStage(app, Number(e.target.value))}>{app.stages.map((stage, i) => <option key={stage} value={i}>{stage}</option>)}</select></td></tr>)}
+          {filtered.map(app => <tr key={`${app.department}-${app.applicationId}`}><td><strong title={app.remarks || ''}>{app.applicationId}</strong><small>{app.ownerName}</small></td><td>{app.citizenId}</td><td>{app.department === 'landRecords' ? 'Land Records' : app.department === 'license' ? 'License' : 'Tax & Revenue'}</td><td><span className="stage-pill">{app.stages[app.currentStage] || 'Pending'}</span></td><td>{app.documentUrl ? <a className="doc-link" href={app.documentUrl.startsWith('http') ? app.documentUrl : `${GATEWAY_ORIGIN}${app.documentUrl}`} target="_blank" rel="noreferrer">View</a> : <span className="hint">None</span>}</td><td><select className="small-select" value={app.currentStage} onChange={e => updateStage(app, Number(e.target.value))}>{app.stages.map((stage, i) => <option key={stage} value={i}>{stage}</option>)}</select></td></tr>)}
           {filtered.length === 0 && <tr><td colSpan="6" className="empty-cell">No applications found.</td></tr>}
         </tbody></table></div>
       </div>
