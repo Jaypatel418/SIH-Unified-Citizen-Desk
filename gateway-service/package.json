@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "axios": "^1.7.2",
+    "cloudinary": "^2.11.0",
     "cors": "^2.8.5",
     "express": "^4.22.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.7.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^2.2.1"
   }
 }
