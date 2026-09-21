@@ -2,9 +2,9 @@ const express=require('express'),axios=require('axios'),cors=require('cors'),cry
 const app=express();app.use(cors());app.use(express.json());
 const SSO_SECRET=process.env.SSO_SECRET||'ucd-sih26129-dev-sso-secret';
 const cloudinary=require('cloudinary').v2;
-const {CloudinaryStorage}=require('multer-storage-cloudinary');
+const {createCloudinaryStorage}=require('multer-storage-cloudinary');
 cloudinary.config({cloud_name:process.env.CLOUDINARY_CLOUD_NAME,api_key:process.env.CLOUDINARY_API_KEY,api_secret:process.env.CLOUDINARY_API_SECRET});
-const upload=multer({storage:new CloudinaryStorage({cloudinary,params:{folder:'ucd_sih26129_uploads',allowed_formats:['pdf','jpg','jpeg','png'],resource_type:'auto'}}),limits:{fileSize:5*1024*1024}});
+const upload=multer({storage:createCloudinaryStorage({cloudinary,params:{folder:'ucd_sih26129_uploads',allowed_formats:['pdf','jpg','jpeg','png'],resource_type:'auto'}}),limits:{fileSize:5*1024*1024}});
 const PORT=process.env.PORT||3000,MONGODB_URI=process.env.MONGODB_URI||'mongodb://127.0.0.1:27017/ucd_sih26129';const SERVICES={license:process.env.LICENSE_SERVICE_URL||'http://localhost:3001',landRecords:process.env.LAND_SERVICE_URL||'http://localhost:3002',tax:process.env.TAX_SERVICE_URL||'http://localhost:3003'};const APPLY_ENDPOINTS={license:`${SERVICES.license}/api/license/apply`,landRecords:`${SERVICES.landRecords}/api/land/apply`,tax:`${SERVICES.tax}/api/tax/apply`};
 const Citizen=mongoose.model('Citizen',new mongoose.Schema({citizenId:{type:String,unique:true},name:String},{collection:'citizens'}));
 const Session=mongoose.model('Session',new mongoose.Schema({token:{type:String,unique:true},role:String,citizenId:String,issuedAt:Date,expiresAt:Date},{collection:'sessions'}));
